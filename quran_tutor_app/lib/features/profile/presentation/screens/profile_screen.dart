@@ -6,6 +6,9 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:quran_tutor_app/core/constants/app_constants.dart';
 import 'package:quran_tutor_app/core/theme/app_colors.dart';
+import 'package:quran_tutor_app/core/utils/validators/arabic_validators.dart';
+import 'package:quran_tutor_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:quran_tutor_app/features/auth/presentation/bloc/auth_event.dart';
 import 'package:quran_tutor_app/features/profile/domain/entities/user_profile.dart';
 import 'package:quran_tutor_app/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:quran_tutor_app/features/profile/presentation/bloc/profile_event.dart';
@@ -21,6 +24,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _isEditing = false;
 
+  final _formKey = GlobalKey<FormState>();
   final _arabicNameController = TextEditingController();
   final _englishNameController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -62,6 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _saveProfile(UserProfile current) {
+    if (!(_formKey.currentState?.validate() ?? false)) return;
     context.read<ProfileBloc>().add(UpdateProfile(
           arabicName: _arabicNameController.text.trim(),
           englishName: _englishNameController.text.trim(),
@@ -188,6 +193,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
             ],
           ),
+          const SizedBox(height: 24),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: () => context
+                  .read<AuthBloc>()
+                  .add(const SignOutRequested()),
+              icon: const Icon(Icons.logout),
+              label: const Text('تسجيل الخروج'),
+            ),
+          ),
         ],
       ),
     );
@@ -196,53 +212,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildEditForm(UserProfile profile) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          TextFormField(
-            controller: _arabicNameController,
-            decoration: const InputDecoration(
-              labelText: 'الاسم بالعربية',
-              prefixIcon: Icon(Icons.person),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            TextFormField(
+              controller: _arabicNameController,
+              decoration: const InputDecoration(
+                labelText: 'الاسم بالعربية',
+                prefixIcon: Icon(Icons.person),
+              ),
+              textDirection: TextDirection.rtl,
+              validator: ArabicValidators.validateArabicName,
             ),
-            textDirection: TextDirection.rtl,
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _englishNameController,
-            decoration: const InputDecoration(
-              labelText: 'الاسم بالإنجليزية',
-              prefixIcon: Icon(Icons.person_outline),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _englishNameController,
+              decoration: const InputDecoration(
+                labelText: 'الاسم بالإنجليزية',
+                prefixIcon: Icon(Icons.person_outline),
+              ),
+              validator: ArabicValidators.validateEnglishName,
             ),
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _phoneController,
-            decoration: const InputDecoration(
-              labelText: 'رقم الجوال',
-              prefixIcon: Icon(Icons.phone),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _phoneController,
+              decoration: const InputDecoration(
+                labelText: 'رقم الجوال',
+                prefixIcon: Icon(Icons.phone),
+              ),
+              keyboardType: TextInputType.phone,
+              validator: ArabicValidators.validatePhone,
             ),
-            keyboardType: TextInputType.phone,
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _bioController,
-            decoration: const InputDecoration(
-              labelText: 'نبذة',
-              prefixIcon: Icon(Icons.info_outline),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _bioController,
+              decoration: const InputDecoration(
+                labelText: 'نبذة',
+                prefixIcon: Icon(Icons.info_outline),
+              ),
+              maxLines: 3,
+              textDirection: TextDirection.rtl,
+              validator: ArabicValidators.validateBio,
             ),
-            maxLines: 3,
-            textDirection: TextDirection.rtl,
-          ),
-          const SizedBox(height: 24),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: () => _saveProfile(profile),
-              icon: const Icon(Icons.save),
-              label: const Text('حفظ التغييرات'),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => _saveProfile(profile),
+                icon: const Icon(Icons.save),
+                label: const Text('حفظ التغييرات'),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
