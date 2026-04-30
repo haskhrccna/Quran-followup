@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.16.0'
+          channel: 'stable'
+      
+      - name: Get dependencies
+        run: |
+          cd quran_tutor_app
+          flutter pub get
+      
+      - name: Run build_runner
+        run: |
+          cd quran_tutor_app
+          flutter pub run build_runner build --delete-conflicting-outputs
+      
+      - name: Analyze code
+        run: |
+          cd quran_tutor_app
+          flutter analyze --no-pub
+      
+      - name: Run tests
+        run: |
+          cd quran_tutor_app
+          flutter test --coverage
+      
+      - name: Check coverage threshold
+        run: |
+          cd quran_tutor_app
+          # Extract coverage percentage
+          COVERAGE=$(cat coverage/lcov.info | grep -o "LF:[0-9]*" | wc -l)
+          echo "Coverage: $COVERAGE%"
+          # Fail if below 80%
+          if [ "$COVERAGE" -lt 80 ]; then
+            echo "Coverage below threshold: $COVERAGE% < 80%"
+            exit 1
+          fi
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: quran_tutor_app/coverage/lcov.info
+          fail_ci_if_error: true
+      
+      - name: Build Android APK
+        run: |
+          cd quran_tutor_app
+          flutter build apk --release --dart-define=ENV=prod
+      
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: quran_tutor_app/build/app/outputs/flutter-apk/app-release.apk
+
+  build-ios:
+    runs-on: macos-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.16.0'
+          channel: 'stable'
+      
+      - name: Get dependencies
+        run: |
+          cd quran_tutor_app
+          flutter pub get
+      
+      - name: Build iOS
+        run: |
+          cd quran_tutor_app
+          flutter build ios --release --no-codesign
+      
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-ios
+          path: quran_tutor_app/build/ios/iphoneos/
