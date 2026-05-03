@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/common/common_widgets.dart';
 import '../../config/app_config.dart';
 
 class TeacherProfile extends ConsumerWidget {
@@ -42,18 +43,3 @@ class TeacherProfile extends ConsumerWidget {
   }
 }
 
-class AppAvatar extends StatelessWidget {
-  final String name;
-  final double radius;
-  const AppAvatar({super.key, required this.name, this.radius = 24});
-
-  @override
-  Widget build(BuildContext context) {
-    final initials = name.split(' ').map((e) => e.isNotEmpty ? e[0] : '').take(2).join();
-    return CircleAvatar(
-      radius: radius,
-      backgroundColor: AppTheme.primaryColor.withOpacity(0.2),
-      child: Text(initials, style: TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.bold)),
-    );
-  }
-}

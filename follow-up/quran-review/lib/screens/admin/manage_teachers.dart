@@ -196,14 +196,3 @@ class _ManageTeachersState extends ConsumerState<ManageTeachers> {
   }
 }
 
-class AppAvatar extends StatelessWidget {
-  final String name;
-  final double radius;
-  const AppAvatar({super.key, required this.name, this.radius = 24});
-
-  @override
-  Widget build(BuildContext context) {
-    final initials = name.split(' ').map((e) => e.isNotEmpty ? e[0] : '').take(2).join();
-    return CircleAvatar(radius: radius, backgroundColor: AppTheme.primaryColor.withOpacity(0.2), child: Text(initials, style: TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.bold)));
-  }
-}

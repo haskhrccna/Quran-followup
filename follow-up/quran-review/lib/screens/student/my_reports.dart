@@ -7,6 +7,12 @@ import '../../providers/auth_provider.dart';
 import '../../services/report_service.dart';
 import '../../widgets/common/common_widgets.dart';
 
+final _reportsProvider = FutureProvider.family<List<Report>, String>((ref, studentId) async {
+  final supabase = ref.watch(supabaseProvider);
+  final reportService = ReportService(supabase);
+  return reportService.getStudentReports(studentId);
+});
+
 class MyReports extends ConsumerWidget {
   const MyReports({super.key});
 
@@ -17,8 +23,7 @@ class MyReports extends ConsumerWidget {
 
     if (user == null) return const Scaffold(body: AppLoading());
 
-    final reportService = ReportService(ref.read(supabaseProvider));
-    final reportsAsync = ref.watch(_reportsProvider(reportService, user.id));
+    final reportsAsync = ref.watch(_reportsProvider(user.id));
 
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +39,7 @@ class MyReports extends ConsumerWidget {
             );
           }
           return RefreshIndicator(
-            onRefresh: () async {},
+            onRefresh: () async => ref.invalidate(_reportsProvider(user.id)),
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: reports.length,
@@ -90,7 +95,3 @@ class MyReports extends ConsumerWidget {
     );
   }
 }
-
-final _reportsProvider = FutureProvider.family(List, ReportService) async {
-  return [];
-};

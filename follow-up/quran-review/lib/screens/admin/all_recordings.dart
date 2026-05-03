@@ -57,13 +57,3 @@ class AllRecordings extends ConsumerWidget {
   }
 }
 
-class AppAvatar extends StatelessWidget {
-  final String name;
-  final double radius;
-  const AppAvatar({super.key, required this.name, this.radius = 24});
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(radius: radius, backgroundColor: Colors.blue.withOpacity(0.2));
-  }
-}
