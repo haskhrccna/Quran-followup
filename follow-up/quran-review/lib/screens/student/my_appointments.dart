@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/appointment_provider.dart';
 import '../../models/appointment.dart';
@@ -93,7 +93,7 @@ class _AppointmentCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.1),
+                color: Colors.grey.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text('${l10n.teacherNotes}: ${appointment.teacherNotes}', style: const TextStyle(fontStyle: FontStyle.italic)),
@@ -124,15 +124,15 @@ class _AppointmentCard extends StatelessWidget {
   Color _getStatusColor(AppointmentStatus status) {
     switch (status) {
       case AppointmentStatus.accepted:
-        return AppTheme.successColor.withOpacity(0.2);
+        return AppTheme.successColor.withValues(alpha: 0.2);
       case AppointmentStatus.rejected:
-        return AppTheme.errorColor.withOpacity(0.2);
+        return AppTheme.errorColor.withValues(alpha: 0.2);
       case AppointmentStatus.amended:
-        return AppTheme.warningColor.withOpacity(0.2);
+        return AppTheme.warningColor.withValues(alpha: 0.2);
       case AppointmentStatus.completed:
-        return AppTheme.primaryColor.withOpacity(0.2);
+        return AppTheme.primaryColor.withValues(alpha: 0.2);
       default:
-        return AppTheme.infoColor.withOpacity(0.2);
+        return AppTheme.infoColor.withValues(alpha: 0.2);
     }
   }
 }

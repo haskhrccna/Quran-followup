@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/dashboard_stats.dart';
-import 'auth_provider.dart';
 
 final dashboardStatsProvider = FutureProvider<DashboardStats>((ref) async {
   return DashboardStats(

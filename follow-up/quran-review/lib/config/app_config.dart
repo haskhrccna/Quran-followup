@@ -47,10 +47,6 @@ final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>((ref) {
   return LocaleNotifier();
 });
 
-final supabaseProvider = Provider<SupabaseClient>((ref) {
-  return AppConfig.supabase;
-});
-
 class AppTheme {
   static const Color primaryColor = Color(0xFF1B5E20);
   static const Color primaryDark = Color(0xFF003300);
@@ -130,7 +126,7 @@ class AppTheme {
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -147,7 +143,7 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: primaryLight.withOpacity(0.2),
+        backgroundColor: primaryLight.withValues(alpha: 0.2),
         labelStyle: const TextStyle(color: primaryColor),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         shape: RoundedRectangleBorder(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/recording_provider.dart';
 import '../../widgets/common/common_widgets.dart';
@@ -45,7 +45,7 @@ class MyRecordings extends ConsumerWidget {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: AppTheme.primaryColor.withOpacity(0.1),
+                          color: AppTheme.primaryColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
@@ -69,7 +69,7 @@ class MyRecordings extends ConsumerWidget {
                       ),
                       AppBadge(
                         text: recording.isReviewed ? l10n.review : l10n.notReviewed,
-                        color: recording.isReviewed ? AppTheme.successColor.withOpacity(0.2) : AppTheme.warningColor.withOpacity(0.2),
+                        color: recording.isReviewed ? AppTheme.successColor.withValues(alpha: 0.2) : AppTheme.warningColor.withValues(alpha: 0.2),
                       ),
                     ],
                   ),

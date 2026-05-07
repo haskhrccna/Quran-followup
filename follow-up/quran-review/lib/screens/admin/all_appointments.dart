@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/appointment_provider.dart';
 import '../../widgets/common/common_widgets.dart';
 
@@ -66,11 +66,11 @@ class AllAppointments extends ConsumerWidget {
   Color _getStatusColor(String status) {
     switch (status) {
       case 'accepted':
-        return Colors.green.withOpacity(0.2);
+        return Colors.green.withValues(alpha: 0.2);
       case 'rejected':
-        return Colors.red.withOpacity(0.2);
+        return Colors.red.withValues(alpha: 0.2);
       default:
-        return Colors.blue.withOpacity(0.2);
+        return Colors.blue.withValues(alpha: 0.2);
     }
   }
 }

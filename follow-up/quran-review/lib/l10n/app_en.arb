@@ -63,7 +63,7 @@
   "quiz": "Quiz",
   "assignment": "Assignment",
   "project": "Project",
-  "final": "Final",
+  "finalExam": "Final",
   "studentName": "Student Name",
   "teacherName": "Teacher Name",
   "status": "Status",
@@ -153,8 +153,8 @@
   "from": "From",
   "to": "To",
   "at": "at",
-  "on": "on",
-  "in": "in",
+  "onDay": "on",
+  "inWord": "in",
   "minutes": "Minutes",
   "hours": "Hours",
   "days": "Days",
@@ -229,5 +229,12 @@
   "unknownError": "Unknown error",
   "successOperation": "Operation completed successfully",
   "failedOperation": "Operation failed",
-  "tryAgain": "Try again"
+  "tryAgain": "Try again",
+  "allAppointments": "All Appointments",
+  "allGrades": "All Grades",
+  "allRecordings": "All Recordings",
+  "allReports": "All Reports",
+  "myRecordings": "My Recordings",
+  "mySchedule": "My Schedule",
+  "reportTitle": "Report Title"
 }

@@ -47,7 +47,7 @@ class UserService {
     String? phone,
   }) async {
     final response = await _supabase.auth.admin.createUser(
-      AdminUserBuilder(
+      AdminUserAttributes(
         email: email,
         password: password,
         emailConfirm: true,
@@ -94,7 +94,7 @@ class UserService {
   Future<void> resetUserPassword(String id, String newPassword) async {
     await _supabase.auth.admin.updateUserById(
       id,
-      AdminUserAttributes(password: newPassword),
+      attributes: AdminUserAttributes(password: newPassword),
     );
   }
 

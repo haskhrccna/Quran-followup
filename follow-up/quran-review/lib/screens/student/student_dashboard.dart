@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/appointment_provider.dart';
 import '../../providers/grade_provider.dart';
@@ -196,7 +196,7 @@ class StudentDashboard extends ConsumerWidget {
   Widget _buildNoTeacherCard(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return AppCard(
-      color: Colors.orange.withOpacity(0.1),
+      color: Colors.orange.withValues(alpha: 0.1),
       child: Row(
         children: [
           const Icon(Icons.warning_amber, color: Colors.orange),
@@ -243,15 +243,14 @@ class StudentDashboard extends ConsumerWidget {
     );
   }
 
-  Widget _buildAppointmentCard(BuildContext context, String status, String time) {
-    final l10n = AppLocalizations.of(context)!;
-    return AppCard(
+Widget _buildAppointmentCard(BuildContext context, String status, String time) {
+  return AppCard(
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: AppTheme.primaryColor.withOpacity(0.1),
+              color: AppTheme.primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(time, style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -278,13 +277,13 @@ class StudentDashboard extends ConsumerWidget {
   Color _getStatusColor(String status) {
     switch (status) {
       case 'accepted':
-        return AppTheme.successColor.withOpacity(0.2);
+        return AppTheme.successColor.withValues(alpha: 0.2);
       case 'rejected':
-        return AppTheme.errorColor.withOpacity(0.2);
+        return AppTheme.errorColor.withValues(alpha: 0.2);
       case 'amended':
-        return AppTheme.warningColor.withOpacity(0.2);
+        return AppTheme.warningColor.withValues(alpha: 0.2);
       default:
-        return AppTheme.infoColor.withOpacity(0.2);
+        return AppTheme.infoColor.withValues(alpha: 0.2);
     }
   }
 }

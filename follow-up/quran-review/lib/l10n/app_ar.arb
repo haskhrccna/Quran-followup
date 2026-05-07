@@ -63,7 +63,7 @@
   "quiz": "اختبار قصير",
   "assignment": "واجب",
   "project": "مشروع",
-  "final": "نهائي",
+  "finalExam": "نهائي",
   "studentName": "اسم الطالب",
   "teacherName": "اسم المعلم",
   "status": "الحالة",
@@ -153,8 +153,8 @@
   "from": "من",
   "to": "إلى",
   "at": "في",
-  "on": "في",
-  "in": "في",
+  "onDay": "في",
+  "inWord": "في",
   "minutes": "دقائق",
   "hours": "ساعات",
   "days": "أيام",
@@ -229,5 +229,12 @@
   "unknownError": "خطأ غير معروف",
   "successOperation": "تمت العملية بنجاح",
   "failedOperation": "فشلت العملية",
-  "tryAgain": "حاول مرة أخرى"
+  "tryAgain": "حاول مرة أخرى",
+  "allAppointments": "جميع المواعيد",
+  "allGrades": "جميع الدرجات",
+  "allRecordings": "جميع التسجيلات",
+  "allReports": "جميع التقارير",
+  "myRecordings": "تسجيلاتي",
+  "mySchedule": "جدولي",
+  "reportTitle": "عنوان التقرير"
 }

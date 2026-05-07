@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../config/app_config.dart';
+import '../../config/app_config.dart';
 
 class AppButton extends StatelessWidget {
   final String text;
@@ -181,7 +181,7 @@ class AppBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: color ?? AppTheme.primaryColor.withOpacity(0.2),
+        color: color ?? AppTheme.primaryColor.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
@@ -222,7 +222,7 @@ class AppAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: Colors.primaries[colorIndex].withOpacity(0.2),
+      backgroundColor: Colors.primaries[colorIndex].withValues(alpha: 0.2),
       child: Text(
         initials,
         style: TextStyle(

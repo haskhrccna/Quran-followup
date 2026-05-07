@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/message_provider.dart';
+import '../../providers/user_provider.dart';
 import '../../models/message.dart';
 
 class ChatDetail extends ConsumerStatefulWidget {
@@ -72,7 +73,7 @@ class _ChatDetailState extends ConsumerState<ChatDetail> {
             decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
               boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 4, offset: const Offset(0, -2)),
+                BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 4, offset: const Offset(0, -2)),
               ],
             ),
             child: Row(

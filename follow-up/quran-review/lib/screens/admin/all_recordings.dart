@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/recording_provider.dart';
 import '../../widgets/common/common_widgets.dart';
 
@@ -31,7 +31,7 @@ class AllRecordings extends ConsumerWidget {
                 return AppCard(
                   child: Row(
                     children: [
-                      Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.blue.withOpacity(0.1), borderRadius: BorderRadius.circular(8)), child: const Icon(Icons.mic, color: Colors.blue)),
+                      Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.blue.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)), child: const Icon(Icons.mic, color: Colors.blue)),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
@@ -42,7 +42,7 @@ class AllRecordings extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      AppBadge(text: r.isReviewed ? l10n.review : l10n.notReviewed, color: r.isReviewed ? Colors.green.withOpacity(0.2) : Colors.orange.withOpacity(0.2)),
+                      AppBadge(text: r.isReviewed ? l10n.review : l10n.notReviewed, color: r.isReviewed ? Colors.green.withValues(alpha: 0.2) : Colors.orange.withValues(alpha: 0.2)),
                     ],
                   ),
                 );

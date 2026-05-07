@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/message_provider.dart';
 import '../../config/app_config.dart';
@@ -30,7 +30,7 @@ class AdminSettings extends ConsumerWidget {
             },
           ),
           const Divider(),
-          ListTile(leading: const Icon(Icons.broadcast), title: Text(l10n.broadcast), onTap: () => _showBroadcastDialog(context, ref, l10n)),
+          ListTile(leading: const Icon(Icons.campaign), title: Text(l10n.broadcast), onTap: () => _showBroadcastDialog(context, ref, l10n)),
           const Divider(),
           ListTile(leading: const Icon(Icons.logout, color: Colors.red), title: Text(l10n.logout, style: const TextStyle(color: Colors.red)), onTap: () async {
             await ref.read(authProvider.notifier).logout();

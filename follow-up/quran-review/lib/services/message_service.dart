@@ -1,6 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/message.dart';
-import '../models/user_profile.dart';
 
 class MessageService {
   final SupabaseClient _supabase;
@@ -90,7 +89,7 @@ class MessageService {
         .update({'read_at': DateTime.now().toIso8601String()})
         .eq('receiver_id', userId)
         .eq('sender_id', otherUserId)
-        .is_('read_at', null);
+        .filter('read_at', 'is', null);
   }
 
   Future<void> sendBroadcast({
@@ -128,7 +127,7 @@ class MessageService {
         .from('messages')
         .select('id')
         .eq('receiver_id', userId)
-        .is_('read_at', null);
+        .filter('read_at', 'is', null);
 
     return (response as List).length;
   }

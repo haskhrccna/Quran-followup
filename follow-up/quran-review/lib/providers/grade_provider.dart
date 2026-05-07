@@ -37,9 +37,9 @@ class GradeNotifier extends StateNotifier<AsyncValue<List<Grade>>> {
     try {
       List<Grade> grades;
       if (_teacherId != null) {
-        grades = await _service.getTeacherGrades(_teacherId);
+        grades = await _service.getTeacherGrades(_teacherId!);
       } else if (_studentId != null) {
-        grades = await _service.getStudentGrades(_studentId);
+        grades = await _service.getStudentGrades(_studentId!);
       } else {
         grades = await _service.getAllGrades();
       }
@@ -85,8 +85,8 @@ final teacherGradeNotifierProvider = StateNotifierProvider.family<
     GradeNotifier, AsyncValue<List<Grade>>, String>((ref, teacherId) {
   return GradeNotifier(
     ref.watch(gradeServiceProvider),
-    teacherId: teacherId,
-    studentId: null,
+    teacherId,
+    null,
   );
 });
 
@@ -94,7 +94,7 @@ final studentGradeNotifierProvider = StateNotifierProvider.family<
     GradeNotifier, AsyncValue<List<Grade>>, String>((ref, studentId) {
   return GradeNotifier(
     ref.watch(gradeServiceProvider),
-    teacherId: null,
-    studentId: studentId,
+    null,
+    studentId,
   );
 });

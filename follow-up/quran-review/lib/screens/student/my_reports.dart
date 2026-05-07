@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../providers/auth_provider.dart';
+import '../../models/report.dart';
 import '../../services/report_service.dart';
 import '../../widgets/common/common_widgets.dart';
 
@@ -62,7 +63,7 @@ class MyReports extends ConsumerWidget {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.red.withOpacity(0.1),
+                          color: Colors.red.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Icon(Icons.picture_as_pdf, color: Colors.red),

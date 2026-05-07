@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/grade_provider.dart';
 import '../../widgets/common/common_widgets.dart';
@@ -87,7 +87,7 @@ class MyGrades extends ConsumerWidget {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               decoration: BoxDecoration(
-                                color: _getGradeColor(grade.gradeValue).withOpacity(0.2),
+                                color: _getGradeColor(grade.gradeValue).withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
@@ -127,7 +127,7 @@ class MyGrades extends ConsumerWidget {
       case 'project':
         return l10n.project;
       case 'finalExam':
-        return l10n.final;
+        return l10n.finalExam;
       default:
         return typeName;
     }

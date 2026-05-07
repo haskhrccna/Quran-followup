@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/appointment_provider.dart';
@@ -45,7 +45,7 @@ class MySchedule extends ConsumerWidget {
                 eventLoader: (day) => appointments.where((a) => a.requestedDate.year == day.year && a.requestedDate.month == day.month && a.requestedDate.day == day.day).toList(),
                 calendarStyle: CalendarStyle(
                   selectedDecoration: BoxDecoration(color: AppTheme.primaryColor, shape: BoxShape.circle),
-                  todayDecoration: BoxDecoration(color: AppTheme.primaryColor.withOpacity(0.5), shape: BoxShape.circle),
+                  todayDecoration: BoxDecoration(color: AppTheme.primaryColor.withValues(alpha: 0.5), shape: BoxShape.circle),
                   markerDecoration: BoxDecoration(color: AppTheme.secondaryColor, shape: BoxShape.circle),
                 ),
               ),
@@ -60,7 +60,7 @@ class MySchedule extends ConsumerWidget {
                           return AppCard(
                             child: Row(
                               children: [
-                                Container(padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: AppTheme.primaryColor.withOpacity(0.1), borderRadius: BorderRadius.circular(8)), child: Text(a.requestedTime, style: const TextStyle(fontWeight: FontWeight.bold))),
+                                Container(padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: AppTheme.primaryColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)), child: Text(a.requestedTime, style: const TextStyle(fontWeight: FontWeight.bold))),
                                 const SizedBox(width: 12),
                                 Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                   Text(a.student?.fullName ?? '', style: Theme.of(context).textTheme.titleSmall),
@@ -85,11 +85,11 @@ class MySchedule extends ConsumerWidget {
   Color _getStatusColor(String status) {
     switch (status) {
       case 'accepted':
-        return AppTheme.successColor.withOpacity(0.2);
+        return AppTheme.successColor.withValues(alpha: 0.2);
       case 'rejected':
-        return AppTheme.errorColor.withOpacity(0.2);
+        return AppTheme.errorColor.withValues(alpha: 0.2);
       default:
-        return AppTheme.infoColor.withOpacity(0.2);
+        return AppTheme.infoColor.withValues(alpha: 0.2);
     }
   }
 }

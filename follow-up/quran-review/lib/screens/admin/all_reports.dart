@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/report_service.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/common/common_widgets.dart';
@@ -33,7 +33,7 @@ class AllReports extends ConsumerWidget {
               return AppCard(
                 child: Row(
                   children: [
-                    Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.red.withOpacity(0.1), borderRadius: BorderRadius.circular(8)), child: const Icon(Icons.picture_as_pdf, color: Colors.red)),
+                    Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.red.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)), child: const Icon(Icons.picture_as_pdf, color: Colors.red)),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(

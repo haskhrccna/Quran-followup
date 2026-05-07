@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/user_provider.dart';
 import '../../providers/grade_provider.dart';
@@ -82,10 +82,10 @@ class _GradeStudentState extends ConsumerState<GradeStudent> {
               studentsAsync.when(
                 data: (students) => DropdownButtonFormField<String>(
                   decoration: InputDecoration(labelText: l10n.selectStudent),
-                  value: _selectedStudentId,
-                  items: students.map((s) => DropdownMenuItem(value: s.id, child: Text(s.fullName))).toList(),
-                  onChanged: (v) => setState(() => _selectedStudentId = v),
-                  validator: (v) => v == null ? l10n.requiredField : null,
+          initialValue: _selectedStudentId,
+          items: students.map((s) => DropdownMenuItem(value: s.id, child: Text(s.fullName))).toList(),
+          onChanged: (v) => setState(() => _selectedStudentId = v),
+          validator: (v) => v == null ? l10n.requiredField : null,
                 ),
                 loading: () => const AppLoading(),
                 error: (e, _) => Text('Error: $e'),
@@ -93,9 +93,9 @@ class _GradeStudentState extends ConsumerState<GradeStudent> {
               const SizedBox(height: 16),
               AppInput(label: l10n.subject, hint: l10n.subject, controller: _subjectController, validator: (v) => v == null || v.isEmpty ? l10n.requiredField : null),
               const SizedBox(height: 16),
-              DropdownButtonFormField<GradeType>(
-                decoration: InputDecoration(labelText: l10n.gradeType),
-                value: _selectedType,
+DropdownButtonFormField<GradeType>(
+        decoration: InputDecoration(labelText: l10n.gradeType),
+        initialValue: _selectedType,
                 items: GradeType.values.map((t) => DropdownMenuItem(value: t, child: Text(_getGradeTypeText(t, l10n)))).toList(),
                 onChanged: (v) => setState(() => _selectedType = v!),
               ),
@@ -128,7 +128,7 @@ class _GradeStudentState extends ConsumerState<GradeStudent> {
       case GradeType.project:
         return l10n.project;
       case GradeType.finalExam:
-        return l10n.final;
+        return l10n.finalExam;
     }
   }
 }

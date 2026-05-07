@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/recording.dart';
 
@@ -71,10 +72,11 @@ class RecordingService {
     int? fileSize,
     String? description,
   }) async {
-    final fileBytes = await _supabase.storage.from('recordings').uploadBinary(
-          '$studentId/$fileName',
-          await _readFileBytes(filePath),
-        );
+    final fileBytes = await _readFileBytes(filePath);
+    await _supabase.storage.from('recordings').uploadBinary(
+      '$studentId/$fileName',
+      fileBytes,
+    );
 
     final publicUrl = _supabase.storage.from('recordings').getPublicUrl(
           '$studentId/$fileName',
@@ -128,7 +130,7 @@ class RecordingService {
     required String bucket,
     required String path,
     required String fileName,
-    required List<int> bytes,
+    required Uint8List bytes,
     String? contentType,
   }) async {
     await _supabase.storage.from(bucket).uploadBinary(
@@ -146,8 +148,8 @@ class RecordingService {
     await _supabase.storage.from('recordings').remove([path]);
   }
 
-  Future<List<int>> _readFileBytes(String path) async {
+  Future<Uint8List> _readFileBytes(String path) async {
     final file = await Future.value(path);
-    return file.codeUnits;
+    return Uint8List.fromList(file.codeUnits);
   }
 }

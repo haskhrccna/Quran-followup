@@ -37,9 +37,9 @@ class RecordingNotifier extends StateNotifier<AsyncValue<List<Recording>>> {
     try {
       List<Recording> recordings;
       if (_teacherId != null) {
-        recordings = await _service.getTeacherRecordings(_teacherId);
+        recordings = await _service.getTeacherRecordings(_teacherId!);
       } else if (_studentId != null) {
-        recordings = await _service.getStudentRecordings(_studentId);
+        recordings = await _service.getStudentRecordings(_studentId!);
       } else {
         recordings = await _service.getAllRecordings();
       }
@@ -87,8 +87,8 @@ final teacherRecordingNotifierProvider = StateNotifierProvider.family<
     RecordingNotifier, AsyncValue<List<Recording>>, String>((ref, teacherId) {
   return RecordingNotifier(
     ref.watch(recordingServiceProvider),
-    teacherId: teacherId,
-    studentId: null,
+    teacherId,
+    null,
   );
 });
 
@@ -96,7 +96,7 @@ final studentRecordingNotifierProvider = StateNotifierProvider.family<
     RecordingNotifier, AsyncValue<List<Recording>>, String>((ref, studentId) {
   return RecordingNotifier(
     ref.watch(recordingServiceProvider),
-    teacherId: null,
-    studentId: studentId,
+    null,
+    studentId,
   );
 });

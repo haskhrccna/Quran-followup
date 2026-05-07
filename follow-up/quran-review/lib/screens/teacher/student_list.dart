@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/user_provider.dart';
 import '../../widgets/common/common_widgets.dart';
@@ -52,7 +52,7 @@ class StudentList extends ConsumerWidget {
                       ),
                       AppBadge(
                         text: student.isActive ? l10n.accountActive : l10n.accountSuspended,
-                        color: student.isActive ? AppTheme.successColor.withOpacity(0.2) : AppTheme.errorColor.withOpacity(0.2),
+                        color: student.isActive ? AppTheme.successColor.withValues(alpha: 0.2) : AppTheme.errorColor.withValues(alpha: 0.2),
                       ),
                     ],
                   ),

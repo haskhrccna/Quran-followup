@@ -41,9 +41,9 @@ class AppointmentNotifier extends StateNotifier<AsyncValue<List<Appointment>>> {
     try {
       List<Appointment> appointments;
       if (_teacherId != null) {
-        appointments = await _service.getTeacherAppointments(_teacherId);
+        appointments = await _service.getTeacherAppointments(_teacherId!);
       } else if (_studentId != null) {
-        appointments = await _service.getStudentAppointments(_studentId);
+        appointments = await _service.getStudentAppointments(_studentId!);
       } else {
         appointments = await _service.getAllAppointments();
       }
@@ -120,8 +120,8 @@ final teacherAppointmentNotifierProvider = StateNotifierProvider.family<
     AppointmentNotifier, AsyncValue<List<Appointment>>, String>((ref, teacherId) {
   return AppointmentNotifier(
     ref.watch(appointmentServiceProvider),
-    teacherId: teacherId,
-    studentId: null,
+    teacherId,
+    null,
   );
 });
 
@@ -129,7 +129,7 @@ final studentAppointmentNotifierProvider = StateNotifierProvider.family<
     AppointmentNotifier, AsyncValue<List<Appointment>>, String>((ref, studentId) {
   return AppointmentNotifier(
     ref.watch(appointmentServiceProvider),
-    teacherId: null,
-    studentId: studentId,
+    null,
+    studentId,
   );
 });

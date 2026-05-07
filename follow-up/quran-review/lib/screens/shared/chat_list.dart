@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/message_provider.dart';
 import '../../widgets/common/common_widgets.dart';
@@ -32,7 +32,7 @@ class ChatList extends ConsumerWidget {
                 final conv = conversations[index];
                 return ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: Theme.of(context).primaryColor.withOpacity(0.2),
+                    backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                     child: Text(conv.otherUser.fullName[0], style: TextStyle(color: Theme.of(context).primaryColor)),
                   ),
                   title: Text(conv.otherUser.fullName),

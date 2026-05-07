@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../config/app_config.dart';
 
@@ -22,7 +22,7 @@ class ProfileScreen extends ConsumerWidget {
           children: [
             CircleAvatar(
               radius: 50,
-              backgroundColor: AppTheme.primaryColor.withOpacity(0.2),
+              backgroundColor: AppTheme.primaryColor.withValues(alpha: 0.2),
               child: Text(user.fullName[0], style: TextStyle(fontSize: 40, color: AppTheme.primaryColor)),
             ),
             const SizedBox(height: 16),
