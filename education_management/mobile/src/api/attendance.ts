@@ -20,11 +20,11 @@ export interface SessionRecord {
 
 export const attendanceApi = {
   record: async (appointmentId: string, status: AttendanceStatus, notes?: string): Promise<SessionRecord> => {
-    const { data } = await apiClient.post(`/appointments/${appointmentId}/attendance`, { status, notes });
-    return data;
+    const res = await apiClient.post(`/appointments/${appointmentId}/attendance`, { status, notes });
+    return res.data?.data ?? res.data;
   },
   list: async (studentId?: string): Promise<SessionRecord[]> => {
-    const { data } = await apiClient.get('/attendance', { params: studentId ? { studentId } : undefined });
-    return data;
+    const res = await apiClient.get('/attendance', { params: studentId ? { studentId } : undefined });
+    return res.data?.data ?? [];
   },
 };

@@ -42,15 +42,15 @@ appointment.routes.ts ── authorize(TEACHER) ──► attendance.controller.
 `SessionRecord` (`packages/server/prisma/schema.prisma:369`, table
 `session_records`):
 
-| Column | Type | Notes |
-|---|---|---|
-| `id` | cuid | PK |
-| `appointmentId` | FK → `appointments` | **`@unique` — 1:1 with Appointment**, cascade delete |
-| `studentId` | FK → `users` | denormalized from the appointment, cascade delete |
-| `teacherId` | FK → `users` | the recorder, cascade delete |
-| `status` | `AttendanceStatus` enum | `PRESENT` \| `ABSENT` \| `LATE` \| `EXCUSED` |
-| `notes` | text, nullable | free-form teacher note |
-| `recordedAt` | timestamp | defaults to now |
+| Column          | Type                    | Notes                                                |
+| --------------- | ----------------------- | ---------------------------------------------------- |
+| `id`            | cuid                    | PK                                                   |
+| `appointmentId` | FK → `appointments`     | **`@unique` — 1:1 with Appointment**, cascade delete |
+| `studentId`     | FK → `users`            | denormalized from the appointment, cascade delete    |
+| `teacherId`     | FK → `users`            | the recorder, cascade delete                         |
+| `status`        | `AttendanceStatus` enum | `PRESENT` \| `ABSENT` \| `LATE` \| `EXCUSED`         |
+| `notes`         | text, nullable          | free-form teacher note                               |
+| `recordedAt`    | timestamp               | defaults to now                                      |
 
 Indexes: `(studentId, recordedAt)` and `(teacherId, recordedAt)` serve the two
 history queries; `(status)` serves aggregate/analytics filters.
@@ -84,7 +84,7 @@ Defined in `packages/server/src/routes/appointment.routes.ts:32`, guarded by
   `validate(ZodSchema)` middleware that sibling appointment routes use.
   Empty-string `notes` are treated as no note (stored as `null`).
 - Returns `201` with `{ success: true, data: <SessionRecord including
-  appointment.requestedDate/requestedTime> }`.
+appointment.requestedDate/requestedTime> }`.
 - Errors: `400` bad status · `401` no auth · `403` not the appointment's
   teacher, or no ACCEPTED appointment with the student, or either party
   soft-deleted · `404` appointment not found · `409` already recorded.
@@ -97,11 +97,11 @@ Mounted in `app.ts:102` with `authenticate` + `standardLimiter`; the router
 (`attendance.routes.ts`) applies `authenticate` again (harmless duplication).
 There is no `authorize()` here — role logic lives in the service:
 
-| Caller role | Behavior |
-|---|---|
-| `STUDENT` | May omit `studentId` (defaults to self). Requesting anyone else → `403`. |
-| `TEACHER` | Must pass `studentId`; allowed only with an ACCEPTED appointment with that student. |
-| `ADMIN` | Any student. |
+| Caller role | Behavior                                                                            |
+| ----------- | ----------------------------------------------------------------------------------- |
+| `STUDENT`   | May omit `studentId` (defaults to self). Requesting anyone else → `403`.            |
+| `TEACHER`   | Must pass `studentId`; allowed only with an ACCEPTED appointment with that student. |
+| `ADMIN`     | Any student.                                                                        |
 
 Returns all of the student's records (no pagination), newest first, each with
 `appointment.requestedDate/requestedTime/durationMinutes`.
@@ -113,16 +113,16 @@ Returns all of the student's records (no pagination), newest first, each with
 1. **Ownership pre-flight** — the appointment must exist and its `teacherId`
    must equal the caller.
 2. **Relationship guard** — `assertTeacherCanAccessStudent(teacherId,
-   studentId)`: requires an `ACCEPTED` appointment between the pair and that
+studentId)`: requires an `ACCEPTED` appointment between the pair and that
    neither user is soft-deleted. This is the same guard convention duplicated
    in the grades, recordings, memorization, revision, and export services
    (see CLAUDE.md — it is deliberately copied per service, not shared).
 3. **Idempotency check** — an existing record for the appointment → `409`.
 4. **Transaction** — `prisma.$transaction` creates the `SessionRecord` and
    sets `Appointment.status = 'COMPLETED'`. This coupling is the core
-   invariant: *recording attendance is what completes a session.*
+   invariant: _recording attendance is what completes a session._
 5. **Notification** — after commit, `notifyUser({ event:
-   'attendance_recorded', … })` sends the student a push notification and a
+'attendance_recorded', … })` sends the student a push notification and a
    durable in-app feed row. Every channel inside `notifyUser`
    (`notification.service.ts:15`) is individually try/caught, so a
    notification failure is logged but can never fail the request or roll back
@@ -130,7 +130,7 @@ Returns all of the student's records (no pagination), newest first, each with
 
 Subtlety: the transaction flips the appointment to `COMPLETED` regardless of
 its prior status — the service checks ownership but not that this specific
-appointment was `ACCEPTED`. The relationship guard only requires *some*
+appointment was `ACCEPTED`. The relationship guard only requires _some_
 ACCEPTED appointment between the pair, so with multiple appointments between
 the same teacher and student, attendance can be recorded against one still in
 `REQUESTED` state.
@@ -151,14 +151,14 @@ the same teacher and student, attendance can be recorded against one still in
 status, notes?)` and `attendanceApi.list(studentId?)`, mapping 1:1 onto the
 two endpoints.
 
-⚠️ **Known gap:** none of the Axios client's interceptors (auth-header
+Envelope handling: none of the Axios client's interceptors (auth-header
 injection, error-message normalization, 401 token refresh) unwrap response
-envelopes, and `attendance.ts` returns `res.data` raw while typing it as
-`SessionRecord`/`SessionRecord[]`. The server actually responds with
-`{ success: true, data: … }`, so these functions return the envelope, not the
-record — compare `parents.ts`, which defensively unwraps `res.data?.data`.
-This has not bitten yet because **no hook or screen currently consumes
-`attendanceApi`** — fix the unwrapping before building attendance UI.
+envelopes, so each API module unwraps for itself. The server responds with
+`{ success: true, data: … }`, and both functions unwrap it as
+`res.data?.data ?? …` — the same defensive pattern `parents.ts` uses. Keep
+this unwrapping when adding attendance endpoints; returning `res.data` raw
+would return the envelope, not the record. No hook or screen consumes
+`attendanceApi` yet.
 
 ## Testing
 
